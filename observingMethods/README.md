@@ -1,6 +1,6 @@
-## Proposal: consolidate the three WMDR observing-method code lists
+# Proposal: consolidate the three WMDR observing-method code lists
 
-### Scope
+## Scope
 
 The WMDR registry currently (19 August 2026) exposes three separate observing-method registers:
 
@@ -18,11 +18,11 @@ The three existing registers should remain resolvable for backwards compatibilit
 
 Source exports used for this draft:
 
-- https://codes.wmo.int/wmdr/ObservingMethodAtmosphere?_format=csv&status=valid
-- https://codes.wmo.int/wmdr/ObservingMethodOcean?_format=csv&status=valid
-- https://codes.wmo.int/wmdr/ObservingMethodTerrestrial?_format=csv&status=valid
+- <https://codes.wmo.int/wmdr/ObservingMethodAtmosphere?_format=csv&status=valid>
+- <https://codes.wmo.int/wmdr/ObservingMethodOcean?_format=csv&status=valid>
+- <https://codes.wmo.int/wmdr/ObservingMethodTerrestrial?_format=csv&status=valid>
 
-### Principle for the consolidated vocabulary
+## Principle for the consolidated vocabulary
 
 `ObservingMethod` should describe the **bio-physico-chemical principle or methodology by which an observed property is determined**.
 
@@ -43,12 +43,12 @@ A useful test is:
 
 If the answer is no, the existing entry is probably describing the instrument rather than the method.
 
-### Duplicate notations
+## Duplicate notations
 
 Simply combining the three current tables causes numeric notation collisions:
 
 | Notation | Atmosphere | Terrestrial/hydrological |
-|---|---|---|
+| --- | --- | --- |
 | `344` | GC-CVAFS | Laser ranging |
 | `345` | GC-TCD | Echo sounding |
 | `346` | Electrostatic collection + alpha counting | Frequency domain reflectometry |
@@ -58,12 +58,12 @@ Simply combining the three current tables causes numeric notation collisions:
 
 [To be discussed] `unknown` and `inapplicable` also occur in both the atmosphere and terrestrial registers. Should these be carried into the new `ObservingMethod` list, or rather become nil reasons?
 
-### Exact duplicate labels
+## Exact duplicate labels
 
 The current exports contain the following exact duplicate labels:
 
 | Label | Legacy entries |
-|---|---|
+| --- | --- |
 | Denuder | Atmosphere 98, 99 |
 | Microtops | Atmosphere 151, 152, 153 |
 | Microwave radiometry | Atmosphere 155, 156, 336 |
@@ -79,12 +79,12 @@ The current exports contain the following exact duplicate labels:
 
 There are **300 distinct labels among 314 source rows**, before considering semantic duplicates and near-duplicates.
 
-### Semantic duplicates / consolidation candidates
+## Semantic duplicates / consolidation candidates
 
 Some particularly clear or useful cross-domain consolidations are:
 
 | Legacy concepts | Proposed unified concept |
-|---|---|
+| --- | --- |
 | Conductometry; Electric conductivity (EC meter); Ocean Electrical conductivity | `electricalConductivityMeasurement` |
 | Mercury-in-glass thermometer; Mercury-based thermometry | `mercuryColumnThermometry` |
 | Liquid-in-glass thermometer (mercury-free); Fluid-based thermometry | `liquidColumnThermometry` |
@@ -100,14 +100,14 @@ Some particularly clear or useful cross-domain consolidations are:
 
 The cup/propeller/acoustic examples illustrate why domain should not be part of the method identity: the underlying physical principle is independent of whether the moving fluid is air or water.
 
-### Instrument-like entries
+## Instrument-like entries
 
 A substantial part of the current lists names instruments rather than methods. Examples include Brewer, Dobson, Microtops, ECC sonde, cup/propeller anemometers, MARGA, aethalometer/PSAP-like instruments, ceilometer, soil thermometer, staff gauge, acoustic Doppler current profiler, and radar water-level gauge.
 
 Where the principle is sufficiently clear, the migration table maps these to method-oriented concepts. Examples:
 
 | Legacy entry | Proposed method |
-|---|---|
+| --- | --- |
 | Brewer / Dobson | `differentialUltravioletAbsorptionSpectrophotometry` |
 | ECC sonde | `electrochemicalConcentrationCell` |
 | Brewer-Mast / Brewer-GDR / Indian / carbon-iodine sondes | `potassiumIodideElectrochemicalOzoneMeasurement` |
@@ -120,7 +120,7 @@ Where the principle is sufficiently clear, the migration table maps these to met
 
 These mappings are generally marked `discussion needed` because the legacy term may not contain enough information to guarantee a lossless conversion.
 
-### Sampling/treatment and composite entries
+## Sampling/treatment and composite entries
 
 Entries such as:
 
@@ -142,7 +142,7 @@ rather than minting a separate `ObservingMethod` for every combination.
 
 The migration crosswalk therefore uses `split` for these cases.
 
-### Software, procedures and source of observation
+## Software, procedures and source of observation
 
 `FLEXPART`, `FLEXTRA`, `HYSPLIT`, `LAGRANTO` and generic transport modelling are derivation/modelling methods rather than direct observing methods.
 
@@ -152,7 +152,7 @@ The migration crosswalk therefore uses `split` for these cases.
 
 [To be discussed] `unknown` and `inapplicable` belong under `nilReason`.
 
-### Proposed notation convention
+## Proposed notation convention
 
 The new notation should be readable and stable enough to serve as part of a semantic-web URI.
 
@@ -171,7 +171,7 @@ Proposed rules:
 
 The current draft has no notation longer than 50 characters. `TILDAS` is deliberately retained as an uppercase acronym because the fully expanded notation would be longer than the proposed limit.
 
-### Review status
+## Review status
 
 The draft register and migration crosswalk contain a `reviewStatus` column with two values:
 
@@ -180,7 +180,7 @@ The draft register and migration crosswalk contain a `reviewStatus` column with 
 
 This is intended to let reviewers focus first on the cases where expert judgement is actually needed.
 
-### Draft result
+## Draft result
 
 The first-pass curation of all **314 legacy rows** currently gives:
 
@@ -198,7 +198,7 @@ This is a curation draft, not a claim that all 248 concepts should be accepted u
 
 The current source material is also uneven in its definitions: the atmosphere export contains many entries without a description. The proposed register therefore includes a `definitionStatus` field. In this draft, **130** definitions are drafted, **27** are inherited from the legacy registers, and **91** still need a definition.
 
-### Candidate missing methods
+## Candidate missing methods
 
 The draft adds the following candidates for discussion:
 
@@ -223,7 +223,7 @@ The draft adds the following candidates for discussion:
 
 These are deliberately marked `discussion needed`. In particular, the biological/image-processing candidates need agreement on how broad the scope of `ObservingMethod` should be, and some may ultimately belong in a separate processing/analysis vocabulary.
 
-### Migration path
+## Migration path
 
 1. Create `http://codes.wmo.int/wmdr2/ObservingMethod` and make it the canonical vocabulary for new metadata.
 2. Freeze/deprecate the three legacy registers, but keep all existing URIs permanently resolvable.
@@ -238,7 +238,7 @@ These are deliberately marked `discussion needed`. In particular, the biological
 8. Validators can initially warn on legacy codes and later reject them for newly authored records while still accepting historical records.
 9. Preserve provenance: the migration table should retain legacy register, notation, label and URI so that every conversion is auditable.
 
-### Files in this proposal
+## Files in this proposal
 
 - `ObservingMethod-proposed.csv` — one row per proposed unified method concept, including `reviewStatus`, definition status, provenance and legacy mappings.
 - `ObservingMethod-migration.csv` — complete crosswalk for all 314 current source rows, including disposition, proposed replacement, mapping relation, target vocabulary and rationale.
