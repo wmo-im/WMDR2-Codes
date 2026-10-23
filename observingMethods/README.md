@@ -173,12 +173,35 @@ The current draft has no notation longer than 50 characters. `TILDAS` is deliber
 
 ## Review status
 
-The draft register and migration crosswalk contain a `reviewStatus` column with two values:
+`ObservingMethod-proposed.csv` uses a single `status` field with two values:
 
-- `non-controversial` — exact duplicates, spelling/notation normalization, obvious acronym expansion, or a direct method-oriented reformulation with no material semantic change.
-- `discussion needed` — semantic merges, cross-domain generalization, instrument-to-method inference, decomposition of composite entries, ambiguous legacy concepts, or newly proposed methods.
+- `non-controversial` — no substantive issue has been identified with either the proposed concept or its description.
+- `discussion needed` — expert judgement is needed for the concept, its mapping, its description, or any combination of these.
 
-This is intended to let reviewers focus first on the cases where expert judgement is actually needed.
+This deliberately combines the earlier concept-level and description-level review statuses so that reviewers have one clear field to work from.
+
+The table also contains the following compact provenance fields:
+
+- `descriptionSource` — source supporting the description.
+- `descriptionStatus` — whether the description was `existing`, `added`, or `changed` relative to the starting consolidation table.
+- `origin` — whether the proposed concept is `legacy-derived` or a `missing-candidate`.
+- `legacyMappings` — existing register and notation(s) corresponding to the proposed concept.
+- `legacyLabels` — current label(s) associated with those mappings.
+- `notes` — additional curation or migration considerations.
+
+For description sources, the preferred hierarchy is:
+
+1. **WMO-No. 8, Guide to Instruments and Methods of Observation**;
+2. other authoritative WMO publications, including WMO/GAW guidance;
+3. international standards, major international glossaries, and authoritative scientific vocabularies or compilations;
+4. NMHS or other authoritative national documentation;
+5. individual scientific publications only where no suitable higher-level source can be identified.
+
+Descriptions should be succinct and, where possible, state the underlying bio-geo-physico-chemical or measurement principle. Where a method is commonly known under another name, a short `Note: also referred to as ...` may be included.
+
+`descriptionStatus` is working curation metadata and is not necessarily intended to become a property of the eventual production register.
+
+For review convenience, rows in `ObservingMethod-proposed.csv` are ordered first by `status` and then alphabetically by `notation`.
 
 ## Draft result
 
@@ -192,11 +215,22 @@ The first-pass curation of all **314 legacy rows** currently gives:
 
 The resulting draft unified register contains **230 legacy-derived method concepts**. A further **18 candidate missing methods** are included, giving **248 proposed concepts** in total.
 
-Of the 314 legacy mappings, **174** are currently (19 August 2026) marked `non-controversial` and **140** `discussion needed`.
+Of the 314 legacy mappings in `ObservingMethod-migration.csv`, **174** are currently (19 August 2026) marked `non-controversial` and **140** `discussion needed`.
+
+In the simplified proposed register, where concept and description review are combined into one `status`, the **248 proposed concepts** are currently:
+
+- **122** `non-controversial`
+- **126** `discussion needed`
 
 This is a curation draft, not a claim that all 248 concepts should be accepted unchanged.
 
-The current source material is also uneven in its definitions: the atmosphere export contains many entries without a description. The proposed register therefore includes a `definitionStatus` field. In this draft, **130** definitions are drafted, **27** are inherited from the legacy registers, and **91** still need a definition.
+All **248 proposed concepts now have a description**. In the current description-completion pass:
+
+- **91** descriptions were added;
+- **157** descriptions already existed in the proposal;
+- **0** existing descriptions were changed.
+
+The source material remains uneven, particularly in the atmosphere register. The `descriptionSource` field makes the provenance explicit where a source has been established, while `descriptionStatus` records only whether the description itself was existing, added, or changed during this consolidation.
 
 ## Candidate missing methods
 
@@ -240,7 +274,7 @@ These are deliberately marked `discussion needed`. In particular, the biological
 
 ## Files in this proposal
 
-- `ObservingMethod-proposed.csv` — one row per proposed unified method concept, including `reviewStatus`, definition status, provenance and legacy mappings.
+- `ObservingMethod-proposed.csv` — one row per proposed unified method concept, with the compact review fields `status`, `descriptionSource`, `descriptionStatus`, `origin`, legacy mappings and notes.
 - `ObservingMethod-migration.csv` — complete crosswalk for all 314 current source rows, including disposition, proposed replacement, mapping relation, target vocabulary and rationale.
 
 The next useful review step is to work through the `discussion needed` subset, starting with the cross-domain semantic merges and the instrument-to-method mappings. Only after that should the new register be treated as stable.
